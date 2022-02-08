@@ -1,0 +1,78 @@
+Napraviti prvo bazu s imenom PetRescue
+
+1. Kod za napraviti tablicu Korisnik
+
+USE [PetRescue]
+GO
+
+/****** Object:  Table [dbo].[Korisnik]    Script Date: 8.2.2022. 17:11:35 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Korisnik](
+	[Korisnik_id] [int] IDENTITY(1,1) NOT NULL,
+	[Korisnik_ime] [nchar](20) NULL,
+	[Korisnik_prezime] [nchar](20) NULL,
+	[Korisnik_email] [varchar](50) NULL,
+	[Korisnik_lozinka] [varchar](20) NULL,
+	[Korisnik_br_tel] [int] NULL
+) ON [PRIMARY]
+GO
+
+2. Kod za napraviti tablicu udomljavanje
+
+USE [PetRescue]
+GO
+
+/****** Object:  Table [dbo].[Udomljavanje]    Script Date: 8.2.2022. 17:12:38 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Udomljavanje](
+	[udomljavanje_id] [int] NOT NULL,
+	[korisnik_id] [int] NOT NULL,
+ CONSTRAINT [PK_udomljavanje] PRIMARY KEY CLUSTERED 
+(
+	[udomljavanje_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
+3. Kod za napraviti tablicu Zivotinja
+
+USE [PetRescue]
+GO
+
+/****** Object:  Table [dbo].[Zivotinja]    Script Date: 8.2.2022. 17:11:26 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Zivotinja](
+	[Zivotinja_id] [int] IDENTITY(1,1) NOT NULL,
+	[Zivotinja_ime] [nchar](15) NULL,
+	[Zivotinja_pasmina] [nchar](15) NULL,
+	[Zivotinja_dob] [nvarchar](50) NULL,
+	[Zivotinja_spol] [nchar](10) NULL,
+	[Zivotinja_lokacija] [nchar](20) NULL,
+	[Zivotinja_cjepivo] [nchar](10) NULL,
+	[Slika] [nvarchar](500) NULL,
+	[udomljavanje_id] [int] NULL
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Zivotinja]  WITH CHECK ADD  CONSTRAINT [FK_zivotinja_udomljavanje] FOREIGN KEY([udomljavanje_id])
+REFERENCES [dbo].[Udomljavanje] ([udomljavanje_id])
+GO
+
+ALTER TABLE [dbo].[Zivotinja] CHECK CONSTRAINT [FK_zivotinja_udomljavanje]
+GO
